@@ -5,8 +5,86 @@ import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Input from "../components/Input";
 import { reset, update } from "../redux/userSlice";
+import { useFieldArray, useForm, useFormState } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const Invoice: NextPage = () => {
+  type Inputs = {
+    name: string;
+    email: any;
+    phone: string;
+    student_id: string;
+    learncab_id: string;
+    address: string;
+    city: string;
+    state: string;
+    pincode: string;
+    country: string;
+    gst_number: string;
+    payment_id: string;
+    date: string;
+    items: {
+      description: string;
+      price: number;
+      amount_paid: number;
+      plan_code: string;
+      days: number;
+      discount: string;
+    }[];
+  };
+
+  let [values, setValues] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    student_id: "",
+    learncab_id: "",
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+    country: "",
+    gst_number: "",
+    payment_id: "",
+    date: "",
+    items: "",
+  });
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    getValues,
+    control,
+    formState: { errors },
+  } = useForm<Inputs>({
+    defaultValues: {
+      name: values.name,
+      email: values.email,
+      phone: values.phone,
+      student_id: values.student_id,
+      learncab_id: values.learncab_id,
+      address: values.address,
+      city: values.city,
+      state: values.state,
+      pincode: values.pincode,
+      country: values.country,
+      gst_number: values.gst_number,
+      payment_id: values.payment_id,
+      date: values.date,
+      items: [],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray<Inputs>({
+    name: "items",
+    control,
+  });
+
+  console.log(errors);
   interface values {
     name: string;
     email: any;
@@ -23,24 +101,10 @@ const Invoice: NextPage = () => {
     date: string;
   }
 
-  let [values, setValues] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    student_id: "",
-    learncab_id: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
-    country: "",
-    gst_number: "",
-    payment_id: "",
-    date: "",
-  });
-
+  const phone = getValues("phone");
   const [phoneRes, setPhoneRes] = useState({});
 
+  const onSubmit = (data: Inputs) => console.log(data);
   /**
    * fetching student ID from API
    */
@@ -56,6 +120,10 @@ const Invoice: NextPage = () => {
       });
 
       setPhoneRes(res.data.data[0].phone_number);
+      const studentID = res.data.data[0]._id;
+      const learncabID = res.data.data[0].student_id;
+      setValue("student_id", studentID);
+      setValue("learncab_id", learncabID);
       setValues({
         ...values,
         student_id: res.data.data[0]._id,
@@ -92,92 +160,6 @@ const Invoice: NextPage = () => {
     },
   ]);
 
-  const [error, setError] = useState({
-    name: {
-      error: false,
-      message: "",
-    },
-    email: {
-      error: false,
-      message: "",
-    },
-    phone: {
-      error: false,
-      message: "",
-    },
-    student_id: {
-      error: false,
-      message: "",
-    },
-    learncab_id: {
-      error: false,
-      message: "",
-    },
-    address: {
-      error: false,
-      message: "",
-    },
-    city: {
-      error: false,
-      message: "",
-    },
-    state: {
-      error: false,
-      message: "",
-    },
-    pincode: {
-      error: false,
-      message: "",
-    },
-    country: {
-      error: false,
-      message: "",
-    },
-    gst_number: {
-      error: false,
-      message: "",
-    },
-    payment_id: {
-      error: false,
-      message: "",
-    },
-    date: {
-      error: false,
-      message: "",
-    },
-  });
-  const [itemListError, setItemListError] = useState({
-    description: {
-      error: false,
-      message: "",
-      index: [],
-    },
-    price: {
-      error: false,
-      message: "",
-      index: [],
-    },
-    amount_paid: {
-      error: false,
-      message: "",
-      index: [],
-    },
-    plan_code: {
-      error: false,
-      message: "",
-      index: [],
-    },
-    days: {
-      error: false,
-      message: "",
-      index: [],
-    },
-    discount: {
-      error: false,
-      message: "",
-      index: [],
-    },
-  });
   let [pdf, setPdf] = useState();
 
   const dispatch = useDispatch();
@@ -207,60 +189,10 @@ const Invoice: NextPage = () => {
    *
    * */
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>): void {
-    e.preventDefault();
+  const handleChange = (e: any) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
 
-    dispatch(
-      update({
-        values: values,
-        itemList: itemList,
-      })
-    );
-
-    let details = {
-      name: Name,
-      email: Email,
-      phone: Phone,
-      student_id: StudentId,
-      learncab_id: LearncabId,
-      address: Address,
-      city: City,
-      state: State,
-      pincode: Pincode,
-      country: Country,
-      gst_number: GSTNo,
-      payment_id: PaymentId,
-      invoice_date: InvoiceDate,
-      items: itemsDetails,
-    };
-
-    let apiUrl = "http://localhost:8000/invoy/api/v1/invoice/generateInvoice";
-
-    axios({
-      method: "post",
-      url: apiUrl,
-      data: details,
-      headers: { "Content-Type": "application/Json" },
-    })
-      .then((response) => {
-        let urldata = response.data.fileurl;
-
-        // Array.from(document.querySelectorAll("input")).forEach(
-        //   (input) => (input.value = "")
-        // );
-
-        setPdf(urldata);
-      })
-      .catch((response) => {
-        //handle error
-        console.log(response);
-      });
-  }
-
-  const handleChange = (inputValue: any, name: string) => {
-    setValues({ ...values, [inputValue.target.name]: inputValue.target.value });
-
-    const { value } = inputValue.target;
+    // const { value } = inputValue.target;
   };
 
   const handleItemChange = (
@@ -297,6 +229,8 @@ const Invoice: NextPage = () => {
     list.splice(index, 1);
     setItemList(list);
   };
+  // const getvalue = getValues();
+  // console.log("phone",phone);
 
   return (
     <div>
@@ -310,58 +244,56 @@ const Invoice: NextPage = () => {
         <div className="md:col-span-5">
           <div>
             <form
-              onSubmit={(e) => handleSubmit(e)}
+              onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col justify-center items-center border-2 md:border-2 m-9 mx-12 md:m-4 p-4"
             >
               <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 w-full">
-                {/* {inputs.map((input) => (
-                  <div className="md:mr-10" key={input.id}>
-                    <Input
-                      type={input.type}
-                      name={input.name}
-                      id={input.id}
-                      title={input.title}
-                      onChange={handleChange}
-                      placeholder={input.placeholder}
-                      error={error[input.name]}
-                    />
-                  </div>
-                ))} */}
                 <div className="md:mr-10">
                   <Input
                     type="text"
-                    name="name"
                     id="name"
+                    register={register("name", {
+                      required: "*name required",
+                      minLength: { value: 5, message: "*minimum 5 characters" },
+                    })}
                     title="Name / Business Name"
                     value={values.name || ""}
-                    onChange={(value: any) => handleChange(value, "name")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter Name"
-                    error={error.name}
+                    error={errors.name?.message}
                   />
                 </div>
 
                 <div className="md:mr-10">
                   <Input
                     type="email"
-                    name="email"
+                    register={register("email", {
+                      required: "*email required",
+                      pattern: {
+                        value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                        message: "email should be in form axxxxx@xxxx.com",
+                      },
+                    })}
                     id="email"
                     title="Email"
                     value={values.email || ""}
-                    onChange={(value: any) => handleChange(value, "email")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter Email"
-                    error={error.email}
+                    error={errors.email?.message}
                   />
                 </div>
                 <div className="md:mr-10">
                   <Input
                     type="Number"
-                    name="phone"
+                    register={register("phone", {
+                      required: "*phone no required",
+                    })}
                     id="phone"
                     title="Phone No"
                     value={values.phone || ""}
-                    onChange={(value: any) => handleChange(value, "phone")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter Phone No"
-                    error={error.phone}
+                    error={errors.phone?.message}
                   />
                 </div>
                 <div className="md:mr-10">
@@ -373,16 +305,22 @@ const Invoice: NextPage = () => {
                   </label>
 
                   {/*  */}
-                  {values.phone == phoneRes ? (
+                  {phone == phoneRes ? (
                     <div>
                       <input
                         type="text"
                         placeholder="Enter Student ID"
-                        name="student_id"
+                        {...register("student_id", {
+                          required: "*student id required",
+                        })}
                         value={values.student_id}
                         readOnly
                         id="student_id"
-                        className="block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none border-gray-400 placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl"
+                        className={
+                          errors.student_id?.message
+                            ? "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none   placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl border-red-500"
+                            : "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none border-gray-400 placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl"
+                        }
                       />
                     </div>
                   ) : (
@@ -390,16 +328,21 @@ const Invoice: NextPage = () => {
                       <input
                         type="text"
                         placeholder="Enter Student ID"
-                        name="student_id"
+                        {...register("student_id", {
+                          required: "*student id required",
+                        })}
                         value={values.student_id || ""}
-                        onChange={(value: any) =>
-                          handleChange(value, "student_id")
-                        }
+                        onChange={(value: any) => handleChange(value)}
                         id="student_id"
-                        className="block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none border-gray-400 placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl"
+                        className={
+                          errors.student_id?.message
+                            ? "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none   placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl border-red-500"
+                            : "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none border-gray-400 placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl"
+                        }
                       />
+
                       <p className="text-red-600 text-xs mb-2">
-                        {error.student_id.message}
+                        {errors.student_id?.message}
                       </p>
                     </div>
                   )}
@@ -414,16 +357,22 @@ const Invoice: NextPage = () => {
                   </label>
 
                   {/*  */}
-                  {values.phone == phoneRes ? (
+                  {phone == phoneRes ? (
                     <div>
                       <input
                         type="text"
                         placeholder="Enter Student ID"
-                        name="learncab_id"
+                        {...register("learncab_id", {
+                          required: "*learncab id required",
+                        })}
                         value={values.learncab_id}
                         readOnly
                         id="learncab_id"
-                        className="block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none border-gray-400 placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl"
+                        className={
+                          errors.learncab_id?.message
+                            ? "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none   placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl border-red-500"
+                            : "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none border-gray-400 placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl"
+                        }
                       />
                     </div>
                   ) : (
@@ -431,16 +380,20 @@ const Invoice: NextPage = () => {
                       <input
                         type="text"
                         placeholder="Enter Student ID"
-                        name="learncab_id"
+                        {...register("learncab_id", {
+                          required: "*learncab id required",
+                        })}
                         value={values.learncab_id || ""}
-                        onChange={(value: any) =>
-                          handleChange(value, "learncab_id")
-                        }
+                        onChange={(value: any) => handleChange(value)}
                         id="learncab_id"
-                        className="block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none border-gray-400 placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl"
+                        className={
+                          errors.learncab_id?.message
+                            ? "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none   placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl border-red-500"
+                            : "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none border-gray-400 placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl"
+                        }
                       />
                       <p className="text-red-600 text-xs mb-2">
-                        {error.learncab_id.message}
+                        {errors.learncab_id?.message}
                       </p>
                     </div>
                   )}
@@ -449,97 +402,109 @@ const Invoice: NextPage = () => {
                 <div className="md:mr-10">
                   <Input
                     type="text"
-                    name="address"
                     id="address"
                     title="Address"
+                    register={register("address", {
+                      required: "*address required",
+                    })}
                     value={values.address || ""}
-                    onChange={(value: any) => handleChange(value, "address")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter Address"
-                    error={error.address}
+                    error={errors.address?.message}
                   />
                 </div>
                 <div className="md:mr-10">
                   <Input
                     type="text"
-                    name="city"
                     id="city"
+                    register={register("city", {
+                      required: "*city required",
+                    })}
                     title="City"
                     value={values.city || ""}
-                    onChange={(value: any) => handleChange(value, "city")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter City"
-                    error={error.city}
+                    error={errors.city?.message}
                   />
                 </div>
                 <div className="md:mr-10">
                   <Input
                     type="text"
-                    name="state"
                     id="state"
+                    register={register("state", {
+                      required: "*state required",
+                    })}
                     title="State"
                     value={values.state || ""}
-                    onChange={(value: any) => handleChange(value, "state")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter State"
-                    error={error.state}
+                    error={errors.state?.message}
                   />
                 </div>
                 <div className="md:mr-10">
                   <Input
                     type="text"
-                    name="pincode"
                     id="pincode"
+                    register={register("pincode", {
+                      required: "*pincode required",
+                    })}
                     title="Pincode"
                     value={values.pincode || ""}
-                    onChange={(value: any) => handleChange(value, "pincode")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter Pincode"
-                    error={error.pincode}
+                    error={errors.pincode?.message}
                   />
                 </div>
                 <div className="md:mr-10">
                   <Input
                     type="text"
-                    name="country"
                     id="country"
+                    register={register("country", {
+                      required: "*country required",
+                    })}
                     title="Country"
                     value={values.country || ""}
-                    onChange={(value: any) => handleChange(value, "country")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter Country"
-                    error={error.country}
+                    error={errors.country?.message}
                   />
                 </div>
                 <div className="md:mr-10">
                   <Input
                     type="text"
-                    name="gst_number"
                     id="gst_number"
+                    register={register("gst_number")}
                     title="GST Number"
                     value={values.gst_number || ""}
-                    onChange={(value: any) => handleChange(value, "gst_number")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter GST Number"
-                    error={error.gst_number}
+                    error={errors.gst_number?.message}
                   />
                 </div>
                 <div className="md:mr-10">
                   <Input
                     type="text"
-                    name="payment_id"
                     id="payment_id"
                     title="Payment ID"
+                    register={register("payment_id", {
+                      required: "*payment id required",
+                    })}
                     value={values.payment_id || ""}
-                    onChange={(value: any) => handleChange(value, "payment_id")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter Payment ID"
-                    error={error.payment_id}
+                    error={errors.payment_id?.message}
                   />
                 </div>
                 <div className="md:mr-10">
                   <Input
                     type="Date"
-                    name="date"
                     id="date"
+                    register={register("date", { required: "date required" })}
                     title="Date"
                     value={values.date || ""}
-                    onChange={(value: any) => handleChange(value, "date")}
+                    onChange={(value: any) => handleChange(value)}
                     placeholder="Enter Date"
-                    error={error.date}
+                    error={errors.date?.message}
                   />
                 </div>
               </div>
@@ -556,142 +521,160 @@ const Invoice: NextPage = () => {
                 >
                   Items:
                 </label>
-                {itemList.map((x, i) => {
+
+                {/* {console.log("fields",fields)} */}
+                {fields.map((field, index) => {
                   return (
-                    <div key={i}>
+                    <div key={field.id}>
                       <div className="border-[1px] w-full mt-1 bg-gray-200  border-gray-200 inline-block mb-1 drop-shadow-xl"></div>
                       <div>
                         <div className="grid md:grid-cols-3">
                           <div className="md:mr-10">
                             <Input
                               type="text"
-                              name="description"
                               id="description"
+                              register={register(`items.${index}.description`, {
+                                required: "required",
+                              })}
                               title="Description"
                               placeholder="Enter Description"
-                              value={itemList[0].description || ""}
-                              onChange={(value: any) =>
-                                handleItemChange(value, i, "description")
-                              }
-                              error={itemListError.description}
-                              index={i}
+                              // value={itemList[0].description || ""}
+                              // onChange={(value: any) =>
+                              //   handleItemChange(value, i, "description")
+                              // }
+                              error={`errors.items.${index}.description?.message`}
                             />
                           </div>
                           <div className="md:mr-10">
                             <Input
                               type="Number"
-                              name="price"
                               id="price"
+                              register={register(`items.${index}.price`, {
+                                required: "required",
+                              })}
                               title="Price"
                               placeholder="Enter Price"
-                              onChange={(value: any) =>
-                                handleItemChange(value, i, "price")
-                              }
-                              value={itemList[0].price || ""}
-                              error={itemListError.price}
-                              index={i}
+                              // onChange={(value: any) =>
+                              //   handleItemChange(value, i, "price")
+                              // }
+                              // value={itemList[0].price || ""}
+                              error={`errors.items.${index}.price?.message`}
                             />
                           </div>
                           <div className="md:mr-10">
                             <Input
                               type="Number"
-                              name="amount_paid"
                               id="amount_paid"
+                              register={register(`items.${index}.amount_paid`, {
+                                required: "required",
+                              })}
                               title="Amount Paid"
                               placeholder="Enter Amount Paid"
-                              value={itemList[0].amount_paid || ""}
-                              onChange={(value: any) =>
-                                handleItemChange(value, i, "amount_paid")
-                              }
-                              error={itemListError.amount_paid}
-                              index={i}
+                              // value={itemList[0].amount_paid || ""}
+                              // onChange={(value: any) =>
+                              //   handleItemChange(value, i, "amount_paid")
+                              // }
+                              error={`errors.items.${index}.amount_paid?.message`}
                             />
                           </div>
                           <div className="md:mr-10">
                             <Input
                               type="string"
-                              name="plan_code"
                               id="plan_code"
+                              register={register(`items.${index}.plan_code`, {
+                                required: "required",
+                              })}
                               title="Plan Code"
                               placeholder="Enter Plan Code"
-                              value={itemList[0].plan_code || ""}
-                              onChange={(value: any) =>
-                                handleItemChange(value, i, "plan_code")
-                              }
-                              error={itemListError.plan_code}
-                              index={i}
+                              // value={itemList[0].plan_code || ""}
+                              // onChange={(value: any) =>
+                              //   handleItemChange(value, i, "plan_code")
+                              // }
+                              error={`errors.items.${index}.plan_code?.message`}
                             />
                           </div>
                           <div className="md:mr-10">
                             <Input
                               type="Number"
-                              name="days"
                               id="days"
+                              register={register(`items.${index}.days`, {
+                                required: "required",
+                              })}
                               title="Days"
                               placeholder="Enter Days"
-                              value={itemList[0].days || ""}
-                              onChange={(value: any) =>
-                                handleItemChange(value, i, "days")
-                              }
-                              error={itemListError.days}
-                              index={i}
+                              // value={itemList[0].days || ""}
+                              // onChange={(value: any) =>
+                              //   handleItemChange(value, i, "days")
+                              // }
+                              error={`errors.items.${index}.days?.message`}
                             />
                           </div>
                           <div className="md:mr-10">
                             <Input
                               type="string"
-                              name="discount"
+                              register={register(`items.${index}.discount`, {
+                                required: "required",
+                              })}
                               id="discount"
                               title="Discount"
                               placeholder="Enter Discount"
-                              value={itemList[0].discount || ""}
-                              onChange={(value: any) =>
-                                handleItemChange(value, i, "discount")
-                              }
-                              error={itemListError.discount}
-                              index={i}
+                              // value={itemList[0].discount || ""}
+                              // onChange={(value: any) =>
+                              //   handleItemChange(value, i, "discount")
+                              // }
+                              error={`errors.items.${index}.discount?.message`}
                             />
                           </div>
                         </div>
                         <div className="flex justify-end items-center mr-6">
+                          {/* <div>
+                            <button
+                              className="m-4 w-20 py-2 text-xs text-white rounded bg-darkViolet hover:bg-blue-800 hover:text-white"
+                              onClick={() => {
+                                append({});
+                              }}
+                            >
+                              Add items
+                            </button>
+                          </div> */}
                           <div>
-                            {itemList.length !== 1 && (
-                              <button
-                                className="m-4 w-20 py-2 text-xs text-white rounded bg-red-600 hover:bg-red-500 border-red-500 hover:text-white"
-                                onClick={() => handleremove(i)}
-                              >
-                                Delete
-                              </button>
-                            )}
-                          </div>
-                          <div>
-                            {itemList.length - 1 === i && (
-                              <button
-                                className="m-4 w-20 py-2 text-xs text-white rounded bg-darkViolet hover:bg-blue-800 hover:text-white"
-                                onClick={handleaddclick}
-                              >
-                                Add Items
-                              </button>
-                            )}
+                            <button
+                              className="m-4 w-20 py-2 text-xs text-white rounded bg-red-600 hover:bg-red-500 border-red-500 hover:text-white"
+                              onClick={() => {
+                                remove(index);
+                              }}
+                            >
+                              Delete
+                            </button>
                           </div>
                         </div>
                       </div>
                     </div>
                   );
                 })}
+                <div className="flex justify-end items-center mr-6">
+                  <div>
+                    <button
+                      className="m-4 w-20 py-2 text-xs text-white rounded bg-darkViolet hover:bg-blue-800 hover:text-white"
+                      onClick={() => {
+                        append({});
+                      }}
+                    >
+                      Add items
+                    </button>
+                  </div>
+                </div>
               </div>
               <div className="border-[1px] w-full mt-4 bg-gray-200  border-gray-200 inline-block mb-1 drop-shadow-xl"></div>
               <div className="flex flex-row">
                 <button
                   type="submit"
-                  // onClick={(e) => {
-                  //   Array.from(document.querySelectorAll("input")).forEach(
-                  //     (input) => (input.value = "")
-                  //   );
-                  //   setValues([{}]);
-                  //   setItemList([{}]);
-                  // }}
                   className="m-4 w-20 py-1 text-center text-white rounded  bg-darkViolet  disabled:opacity-40 disabled:bg-red-600  hover:bg-blue-800 hover:text-white"
+                  onClick={() => {
+                    Array.from(document.querySelectorAll("input")).forEach(
+                      (input) => (input.value = "")
+                    );
+                  }}
                 >
                   Submit
                 </button>
@@ -699,16 +682,24 @@ const Invoice: NextPage = () => {
                 <button
                   type="reset"
                   className="m-4 w-20 py-1 text-center text-white rounded bg-darkViolet hover:bg-blue-800 hover:text-white"
-                  // onClick={(e) => {
-                  //   e.preventDefault();
-                  //   dispatch(reset());
-
-                  //   Array.from(document.querySelectorAll("input")).forEach(
-                  //     (input) => (input.value = "")
-                  //   );
-                  //   setValues([{}]);
-                  //   setItemList([{}]);
-                  // }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    reset({
+                      name: "",
+                      email: "",
+                      phone: "",
+                      student_id: "",
+                      learncab_id: "",
+                      address: "",
+                      city: "",
+                      state: "",
+                      pincode: "",
+                      country: "",
+                      gst_number: "",
+                      payment_id: "",
+                      date: "",
+                    });
+                  }}
                 >
                   Reset
                 </button>
