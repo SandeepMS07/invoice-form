@@ -38,7 +38,7 @@ const Input = ({
         id={id}
         className={
           error
-            ? "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none   placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl border-red-500"
+            ? "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl border-red-500"
             : "block bg-gray-200 border-[1px] px-7 md:px-2 py-[2px] mb-1 rounded outline-none border-gray-400 placeholder:text-sm placeholder:font-[400] focus:border-blue-900 focus:outline-none focus:drop-shadow-xl"
         }
       />

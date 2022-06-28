@@ -1,55 +1,74 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface CounterState {
+  name: string;
+  email: string;
+  phone: string;
+  student_id: string;
+  learncab_id: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+  country: string;
+  gst_number: string;
+  payment_id: string;
+  date: string;
+  itemList: [];
+}
+
+const initialState: CounterState = {
+  name: "",
+  email: "",
+  phone: "",
+  student_id: "",
+  learncab_id: "",
+  address: "",
+  city: "",
+  state: "",
+  pincode: "",
+  country: "",
+  gst_number: "",
+  payment_id: "",
+  date: "",
+  itemList: [],
+};
 
 export const userSlice = createSlice({
   name: "detail",
-  initialState: {
-    name: null,
-    email: null,
-    phone: null,
-    student_id: null,
-    learncab_id: null,
-    address: null,
-    city: null,
-    state: null,
-    pincode: null,
-    country: null,
-    gst_number: null,
-    payment_id: null,
-    date: null,
-    itemList: null,
-  },
+  initialState,
   reducers: {
-    update: (state, action) => {
-      state.name = action.payload.values.name;
-      state.email = action.payload.values.email;
-      state.phone = action.payload.values.phone;
-      state.student_id = action.payload.values.student_id;
-      state.learncab_id = action.payload.values.learncab_id;
-      state.address = action.payload.values.address;
-      state.city = action.payload.values.city;
-      state.state = action.payload.values.state;
-      state.pincode = action.payload.values.pincode;
-      state.country = action.payload.values.country;
-      state.gst_number = action.payload.values.gst_number;
-      state.payment_id = action.payload.values.payment_id;
-      state.date = action.payload.values.date;
-      state.itemList = action.payload.itemList;
+    update: (state, action: PayloadAction<any>) => {
+      state.name += action.payload;
+      state.email += action.payload;
+      state.phone += action.payload;
+      state.student_id += action.payload;
+      state.learncab_id += action.payload;
+      state.address += action.payload;
+      state.city += action.payload;
+      state.state += action.payload;
+      state.pincode += action.payload;
+      state.country += action.payload;
+      state.gst_number += action.payload;
+      state.payment_id += action.payload;
+      state.date += action.payload;
+      state.itemList += action.payload;
     },
     reset: (state) => {
-      state.name = null;
-      state.email = null;
-      state.phone = null;
-      state.student_id = null;
-      state.learncab_id = null;
-      state.address = null;
-      state.city = null;
-      state.state = null;
-      state.pincode = null;
-      state.country = null;
-      state.gst_number = null;
-      state.payment_id = null;
-      state.date = null;
-      state.itemList = null;
+      state.name = "";
+      state.email = "";
+      state.phone = "";
+      state.student_id = "";
+      state.learncab_id = "";
+      state.address = "";
+      state.city = "";
+      state.state = "";
+      state.pincode = "";
+      state.country = "";
+      state.gst_number = "";
+      state.payment_id = "";
+      state.date = "";
+      state.itemList = [];
     },
   },
 });

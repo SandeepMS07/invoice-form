@@ -15,10 +15,10 @@ module.exports = {
       sm: "576px",
       // => @media (min-width: 576px) { ... }
 
-      md: "760px",
+      md: "960px",
       // => @media (min-width: 960px) { ... }
 
-      lg: "1240px",
+      lg: "1340px",
       // => @media (min-width: 1440px) { ... }
 
       xl: "1440px,"
