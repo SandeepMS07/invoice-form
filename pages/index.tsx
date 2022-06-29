@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Login from "./Login";
 
 const Home: NextPage = () => {
   return (

@@ -49,7 +49,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </header>
       <div className="flex flex-col md:flex-row flex-1">
-        <aside className="bg-darkViolet w-full  md:w-16 drop-shadow-lg">
+        {router.pathname !== '/pages/Login.tsx' && <aside className="bg-darkViolet w-full  md:w-16 drop-shadow-lg">
           <nav>
             <Link href="/" passHref>
               <li className="md:flex mt-2 p-2 text-5xl hidden">
@@ -72,9 +72,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <li className="m-3" key={title}>
                   <Link href={href}>
                     <a
-                      className={`flex p-2 bg-darkViolet rounded hover:bg-blue-800 cursor-pointer ${
-                        router.asPath === href && "bg-blue-600"
-                      }`}
+                      className={`flex p-2 bg-darkViolet rounded hover:bg-blue-800 cursor-pointer ${router.asPath === href && "bg-blue-600"
+                        }`}
                     >
                       <span className="text-2xl text-white">{icon}</span>
                     </a>
@@ -93,9 +92,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <li className="m-3" key={title}>
                   <Link href={href}>
                     <a
-                      className={`flex md:hidden p-2 sticky bg-darkViolet rounded hover:bg-blue-800 z-[900] cursor-pointer ${
-                        router.asPath === href && "bg-blue-600"
-                      }`}
+                      className={`flex md:hidden p-2 sticky bg-darkViolet rounded hover:bg-blue-800 z-[900] cursor-pointer ${router.asPath === href && "bg-blue-600"
+                        }`}
                     >
                       <div className="flex flex-row items-center justify-center">
                         <span className="text-2xl text-white">{icon}</span>
@@ -107,7 +105,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               ))}
             </ul>
           </nav>
-        </aside>
+        </aside>}
 
         <main className="flex-1 overflow-auto w-full xl:h-[10px] h-screen">
           {children}
