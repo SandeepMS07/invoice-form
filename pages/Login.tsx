@@ -46,19 +46,28 @@ const Login = () => {
             email: data.username,
             password: data.password
         }
-
-        
+ 
 
         axios({
             method: "post",
             url: url,
             data: details,
             headers: {
+                "Content-Type": "application/json",
                 "ocp-apim-subscription-key": "c442b3d7489942058d2a83e7a023b731"
             },
         })
-            .then(() => {
+            .then((res) => {
+                // const token = res.sessiontoken
+                // console.log(token);
+                axios.post("/api/login", {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    // body: JSON.stringify({ token: "ABCD" })
+                }).then(()=>{
                 router.push("/Invoice")
+                })
             })
             .catch(() => {
                 setLoginError(!loginError)
@@ -140,3 +149,4 @@ const Login = () => {
 }
 
 export default Login;
+ 
