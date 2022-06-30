@@ -19,3 +19,18 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+export function getServerSideProps(ctx: { req: { cookies: any; }; }) {
+  const myCookie = ctx.req?.cookies || "";
+
+  if (myCookie.token !== process.env.TOKEN) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {}
+  }
+}

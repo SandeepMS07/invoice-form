@@ -773,7 +773,7 @@ const Invoice: NextPage = () => {
         </div>
         <div className="col-span-3">
           <div className="flex flex-col items-center justify-center  md:w-[670px]  lg:w-auto min-h-[600px] border-2 m-4 bg-gray-300">
-              <PdfViewer pdfUrl={pdf} />
+            <PdfViewer pdfUrl={pdf} />
           </div>
         </div>
       </div>
@@ -782,3 +782,19 @@ const Invoice: NextPage = () => {
 };
 
 export default Invoice;
+
+export function getServerSideProps(ctx: { req: { cookies: any } }) {
+  const myCookie = ctx.req?.cookies || "";
+
+  if (myCookie.token !== process.env.TOKEN) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}

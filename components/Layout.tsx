@@ -49,7 +49,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </header>
       <div className="flex flex-col md:flex-row flex-1">
-        {router.pathname !== "../pages/login.tsx" && <aside className="bg-darkViolet w-full  md:w-16 drop-shadow-lg">
+        {router.pathname !== "/login" && <aside className="bg-darkViolet w-full  md:w-16 drop-shadow-lg">
           <nav>
             <Link href="/" passHref>
               <li className="md:flex mt-2 p-2 text-5xl hidden">
