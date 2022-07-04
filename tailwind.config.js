@@ -9,6 +9,10 @@ module.exports = {
       colors: {
         darkViolet: "#17013b",
         eastSide: "#b29dd4",
+        "dark-purple": "#06060C",
+        "light-white": "rgba(255,255,255,0.18)",
+        "bg-light": "#FFF8E88C",
+        "Gray-mine-shaft" : "#373737"
       },
     },
     screens: {

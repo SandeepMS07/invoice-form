@@ -28,7 +28,7 @@ const Login = () => {
     passwordShown: false,
   });
   const [loginError, setLoginError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const togglePassword = () => {
@@ -49,7 +49,7 @@ const Login = () => {
     };
 
     const url =
-      "";
+      "https://nl-ns-apim-ds.azure-api.net/dev-darwin-lc/v1/users/signin";
 
     axios({
       method: "post",
@@ -61,22 +61,23 @@ const Login = () => {
       },
     })
       .then((res) => {
-        setIsLoading(false);
         // const token = res.sessiontoken
         // console.log(token);
         axios
-          .post("/api/login", {
+          .post("/api/Login", {
             headers: {
               "Content-Type": "application/json",
             },
             // body: JSON.stringify({ token: "ABCD" })
           })
           .then(() => {
-            router.push("/Invoice");
+            router.push("/CustomerSupport/Invoice");
           });
+        setIsLoading(false);
       })
       .catch(() => {
-        setIsLoading(false);
+       setIsLoading(false)
+
         setLoginError(!loginError);
       });
   };
@@ -151,26 +152,25 @@ const Login = () => {
                   </p>
                 )}
               </div>
-              
-              {isLoading ? (
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="border-2 bg-darkViolet border-darkViolet text-white rounded-full px-8 md:px-12 mb-5 py-1 md:py-2 inline-block font-semibold hover:bg-blue-800 hover:text-white hover:shadow-lg disabled:hover:shadow-none disabled:hover:border-red-900 disabled:hover:bg-red-600 disabled:border-none disabled:cursor-not-allowed"
+              >
+                Sign in
+              </button>
+              {isLoading && (
                 <button
-                  type="submit"
-                  className="border-2 bg-darkViolet border-darkViolet text-white rounded-full px-8 md:px-12 py-1 md:py-2 inline-block font-semibold hover:bg-blue-800 hover:text-white hover:shadow-lg"
-                >
-                  Sign in
-                </button>
-              ) : (
-                <button
-                  disabled
+                  disabled={!isLoading}
                   type="button"
-                  className="border-2 bg-darkViolet  border-darkViolet text-darkViolet rounded-full px-8 md:px-12 py-1 md:py-2 inline-block font-semibold shadow-lg"
+                  className="py-1 md:py-2"
 
                   //   className="text-white bg-darkViolet hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
                 >
-                  d
                   <svg
                     role="status"
-                    className="inline w-4 mr-2 text-white animate-spin"
+                    className="inline w-6 mr-2 text-darkViolet  disabled:text-white animate-spin"
                     viewBox="0 0 100 101"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +184,6 @@ const Login = () => {
                       fill="currentColor"
                     />
                   </svg>
-                  d
                 </button>
               )}
             </form>

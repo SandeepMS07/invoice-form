@@ -1,14 +1,15 @@
 import axios from "axios";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { FormEvent, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Input from "../components/Input";
-import { reset, update } from "../redux/userSlice";
+import { useEffect, useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+import Input from "../../../components/Auth/Input";
+// import { reset, update } from "../../../redux/userSlice";
 import { useFieldArray, useForm, useFormState } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import PdfViewer from "../components/PdfViewer";
+import PdfViewer from "../../../components/PdfViewer";
+// import fileDownload from "js-file-download";
 
 const Invoice: NextPage = () => {
   type Inputs = {
@@ -166,15 +167,35 @@ const Invoice: NextPage = () => {
     })
       .then((response) => {
         let urldata = response.data.fileurl;
-
-        // Array.from(document.querySelectorAll("input")).forEach(
-        //   (input) => (input.value = "")
-        // );
+        reset({
+          name: "",
+          email: "",
+          phone: "",
+          student_id: "",
+          learncab_id: "",
+          address: "",
+          city: "",
+          state: "",
+          pincode: "",
+          country: "",
+          gst_number: "",
+          payment_id: "",
+          date: "",
+          items: [
+            {
+              description: "",
+              price: "",
+              amount_paid: "",
+              plan_code: "",
+              days: "",
+              discount: "",
+            },
+          ],
+        });
 
         setPdf(urldata);
       })
       .catch((response) => {
-        //handle error
         console.log(response);
       });
   };
@@ -235,22 +256,22 @@ const Invoice: NextPage = () => {
 
   let [pdf, setPdf] = useState();
 
-  const dispatch = useDispatch();
-  const Name: string = useSelector((state: any) => state.name);
-  const Email: string = useSelector((state: any) => state.email);
-  const Phone: number = useSelector((state: any) => state.phone);
-  const StudentId: string = useSelector((state: any) => state.student_id);
-  const LearncabId: string = useSelector((state: any) => state.learncab_id);
-  const Address: string = useSelector((state: any) => state.address);
-  const City: string = useSelector((state: any) => state.city);
-  const State: string = useSelector((state: any) => state.state);
-  const Pincode: string = useSelector((state: any) => state.pincode);
-  const Country: string = useSelector((state: any) => state.country);
-  const GSTNo: string = useSelector((state: any) => state.gst_number);
-  const PaymentId: string = useSelector((state: any) => state.payment_id);
-  const InvoiceDate: string = useSelector((state: any) => state.date);
+  // const dispatch = useDispatch();
+  // const Name: string = useSelector((state: any) => state.name);
+  // const Email: string = useSelector((state: any) => state.email);
+  // const Phone: number = useSelector((state: any) => state.phone);
+  // const StudentId: string = useSelector((state: any) => state.student_id);
+  // const LearncabId: string = useSelector((state: any) => state.learncab_id);
+  // const Address: string = useSelector((state: any) => state.address);
+  // const City: string = useSelector((state: any) => state.city);
+  // const State: string = useSelector((state: any) => state.state);
+  // const Pincode: string = useSelector((state: any) => state.pincode);
+  // const Country: string = useSelector((state: any) => state.country);
+  // const GSTNo: string = useSelector((state: any) => state.gst_number);
+  // const PaymentId: string = useSelector((state: any) => state.payment_id);
+  // const InvoiceDate: string = useSelector((state: any) => state.date);
 
-  const itemdetails: any = useSelector((state: any) => state.itemList);
+  // const itemdetails: any = useSelector((state: any) => state.itemList);
   /**
    *
    * */
@@ -276,37 +297,14 @@ const Invoice: NextPage = () => {
     });
     setItemList(updatedItems);
   };
-  // const handleaddclick = () => {
-  //   setItemList([
-  //     ...itemList,
-  //     {
-  //       description: "",
-  //       price: "",
-  //       amount_paid: "",
-  //       plan_code: "",
-  //       days: "",
-  //       discount: "",
-  //     },
-  //   ]);
-  // };
-
-  // const handleremove = (index: any) => {
-  //   const list = [...itemList];
-  //   list.splice(index, 1);
-  //   setItemList(list);
-  // };
-  // const getvalue = getValues();
-  // console.log("phone",phone);
 
   return (
     <div>
       <Head>
         <title>Invoice</title>
       </Head>
-      <header className="bg-darkViolet sticky top-0 h-[72px] hidden md:flex  justify-between items-center drop-shadow-xl z-50">
-        <p className="ml-8 mr-8 text-white font-semibold uppercase">Invoice</p>
-      </header>
-      <div className="grid lg:grid-cols-8 md:grid-cols-4 divide-x m-1 border-[1px]">
+
+      <div className="grid lg:grid-cols-8 md:grid-cols-4 divide-x m-2 border-[1px]">
         <div className="md:col-span-5">
           <div>
             <form
@@ -789,7 +787,7 @@ export function getServerSideProps(ctx: { req: { cookies: any } }) {
   if (myCookie.token !== process.env.TOKEN) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "../Auth/Login",
         permanent: false,
       },
     };
