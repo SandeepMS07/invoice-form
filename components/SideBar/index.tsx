@@ -1,25 +1,9 @@
 import { useState } from "react";
-import {
-  BsArrowLeftShort,
-  BsPerson,
-  BsReverseLayoutTextSidebarReverse,
-  BsFillImageFill,
-  BsChevronDown,
-  BsSearch,
-} from "react-icons/bs";
-import { AiFillEnvironment } from "react-icons/ai";
-import { RiDashboardFill } from "react-icons/ri";
-import {
-  AiOutlineFileText,
-  AiOutlineSetting,
-  AiOutlineLogout,
-  AiOutlineBarChart,
-  AiOutlineMail,
-} from "react-icons/ai";
+import { BsArrowLeftShort, BsChevronDown } from "react-icons/bs";
+
 import { TiClipboard } from "react-icons/ti";
 import Link from "next/link";
 import Image from "next/image";
-
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
@@ -27,26 +11,25 @@ const Sidebar = () => {
   const Menus = [
     { title: "Dashboard", href: "/" },
     {
-      title: "Invoice",
+      title: "Marketing",
+      src: "/assets/images/marketing.png",
       icon: <TiClipboard />,
-      href: "/CustomerSupport/Invoice",
     },
-    { title: "Media", spacing: true, icon: <BsFillImageFill /> },
+    { title: "Packages", spacing: true, src: "/assets/images/packages.png" },
     {
-      title: "Projects",
-      icon: <BsReverseLayoutTextSidebarReverse />,
+      title: "Support",
+      src: "/assets/images/support.png",
       submenu: true,
       submenuItems: [
-        { title: "Submenu 1 " },
-        { title: "Submenu 2 " },
-        { title: "Submenu 3 " },
+        {
+          title: "Invoice",
+          icon: <TiClipboard />,
+          href: "/CustomerSupport/Invoice",
+        },
       ],
     },
-    { title: "Analytics", icon: <AiOutlineBarChart /> },
-    { title: "Inbox", icon: <AiOutlineMail /> },
-    { title: "Media", spacing: true, icon: <BsPerson /> },
-    { title: "Settings", icon: <AiOutlineSetting /> },
-    { title: "Logout", icon: <AiOutlineLogout /> },
+    { title: "Analytics", src: "/assets/images/analytics.png" },
+    { title: "Settings", src: "/assets/images/settings.png" },
   ];
 
   return (
@@ -57,7 +40,7 @@ const Sidebar = () => {
         } duration-300 relative`}
       >
         <BsArrowLeftShort
-          className={`bg-white text-dark-purple text-3xl rounded-full absolute -right-3 top-9 border z-[900] border-dark-purple cursor-pointer ${
+          className={`absolute  -right-3 top-9 border z-[900] bg-white text-[#b37d00] text-3xl rounded-full  border-[#cc8f00] cursor-pointer ${
             !open && "rotate-180"
           }`}
           onClick={() => {
@@ -65,23 +48,19 @@ const Sidebar = () => {
           }}
         />
         <Link href="/" passHref>
-          <div className="inline-flex">
+          <div className="flex gap-x-4 mb-10 items-center">
             <Image
-              src="/assets/images/img.png"
+              src="/assets/images/logo.png"
               alt=""
-              height={`${!open ? "40px" : "40px"}`}
-              width={`${!open ? "40px" : "40px"}`}
-              className={` mr-2 duration-500 text-4xl rounded cursor-pointer block float-left ${
+              height={"40px"}
+              width={"40px"}
+              className={`duration-500  cursor-pointer ${
                 !open && "rotate-[360deg]"
               }`}
             />
-            {/* <AiFillEnvironment
-              className={`bg-amber-300 mr-2 duration-500 text-4xl rounded cursor-pointer block float-left ${
-                !open && "rotate-[360deg]"
-              }`}
-            /> */}
+
             <h1
-              className={`text-Gray-mine-shaft origin-left ml-2 font-bold text-2xl duration-300 ${
+              className={`text-Gray-mine-shaft origin-left ml-2 font-bold  text-2xl duration-200 ${
                 !open && "scale-0"
               }`}
             >
@@ -90,61 +69,97 @@ const Sidebar = () => {
           </div>
         </Link>
 
-        <div
-          className={`flex items-center rounded-md bg-light-white mt-6 px-4 py-2 ${
-            open && "mr-2"
-          }`}
-        >
-          <BsSearch
-            className={`text-Gray-mine-shaft text-lg block float-left cursor-pointer mr-2}`}
-          />
-          <input
-            type={"search"}
-            placeholder="Search"
-            className={` text-base bg-transparent w-full text-Gray-mine-shaft focus:outline-none ${
-              !open && "hidden"
-            }}`}
-          />
-        </div>
         <ul>
           {Menus.map((menu, index) => (
             <>
-              <Link href={`${menu.href && menu.href}`} passHref>
-                <li
-                  key={index}
-                  className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-bg-light rounded-md ${
-                    menu.spacing ? "mt-9" : "mt-2"
-                  }`}
+              <li
+                key={index}
+                className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-[#ffe8b3] rounded-md  
+                   mt-3
+                }`}
+              >
+                <span
+                  className={`text-2xl block float-left ease-in-out duration-300`}
+                  onClick={() => {
+                    !open ? setOpen(true) : "";
+                  }}
                 >
-                  <span className={`text-2xl block float-left`}>
-                    {menu.icon ? menu.icon : <RiDashboardFill />}
-                  </span>
+                  {menu.src ? (
+                    <Image
+                      src={menu.src}
+                      alt=""
+                      height={"30px"}
+                      width={"30px"}
+                      className={`mr-2 duration-500 text-4xl rounded cursor-pointer block float-left"
+                      }`}
+                    />
+                  ) : (
+                    <Image
+                      src="/assets/images/dashboard.png"
+                      alt=""
+                      height={"30px"}
+                      width={"30px"}
+                      className={`mr-2 duration-500 text-4xl rounded cursor-pointer block float-left"
+                        }`}
+                    />
+                  )}
+                </span>
+                <Link
+                  href={`${menu.href ? menu.href : (menu.href = "")}`}
+                  passHref
+                >
                   <span
-                    className={`text-base font-medium flex-1 duration-300 ${
+                    className={`text-base text-Gray-mine-shaft font-medium flex-1 ease-in-out delay-150  duration-300 ${
                       !open && "hidden"
                     }`}
+                    onClick={() => {
+                      !submenuOpen
+                        ? setSubmenuOpen(true)
+                        : setSubmenuOpen(false);
+                    }}
                   >
                     {menu.title}
                   </span>
-                  {menu.submenu && (
-                    <BsChevronDown
-                      className={`${submenuOpen && open && "rotate-180"}`}
-                      onClick={() => {
-                        setSubmenuOpen(!submenuOpen);
-                      }}
-                    />
-                  )}
-                </li>
-              </Link>
+                </Link>
+
+                {menu.submenu && (
+                  <BsChevronDown
+                    className={`text-Gray-mine-shaft ${
+                      submenuOpen && open && "rotate-180"
+                    } ${submenuOpen && "text-sm"}`}
+                    onClick={() => {
+                      setSubmenuOpen(!submenuOpen);
+                    }}
+                  />
+                )}
+              </li>
 
               {menu.submenu && submenuOpen && open && (
                 <ul>
                   {menu.submenuItems?.map((submenuItem, index) => (
                     <li
-                      key={index}
-                      className={`text-Gray-mine-shaft text-sm flex items-center gap-x-4 cursor-pointer p-2 px-5 hover:bg-Gray-mine-shaft rounded-md`}
+                      key={submenuItem.title}
+                      className={`text-Gray-mine-shaft text-sm flex items-center gap-x-4 cursor-pointer p-2 px-5 hover:bg-[#ffe8b3] rounded-md`}
                     >
-                      {submenuItem.title}
+                      <span className={`text-2xl block float-left`}>
+                        {submenuItem.icon && submenuItem.icon}
+                      </span>
+                      <Link
+                        href={`${
+                          submenuItem.href
+                            ? submenuItem.href
+                            : (submenuItem.href = "")
+                        }`}
+                        passHref
+                      >
+                        <span
+                          className={`text-base text-Gray-mine-shaft font-medium flex-1 duration-300 ${
+                            !open && "hidden"
+                          }`}
+                        >
+                          {submenuItem.title}
+                        </span>
+                      </Link>
                     </li>
                   ))}
                 </ul>

@@ -1,5 +1,4 @@
 const PdfViewer = ({ pdfUrl }: any) => {
-  console.log(pdfUrl);
   return (
     <div className="flex flex-col">
       <div>

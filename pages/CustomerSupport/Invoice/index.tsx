@@ -299,7 +299,7 @@ const Invoice: NextPage = () => {
   };
 
   return (
-    <div>
+    <div className="h-screen">
       <Head>
         <title>Invoice</title>
       </Head>

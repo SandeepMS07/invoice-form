@@ -47,8 +47,10 @@ const Login = () => {
       email: data.username,
       password: data.password,
     };
- 
-   
+
+    const url =
+      "https://nl-ns-apim-ds.azure-api.net/dev-darwin-lc/v1/users/signin";
+
     axios({
       method: "post",
       url: url,
@@ -193,4 +195,3 @@ const Login = () => {
 };
 
 export default Login;
- 

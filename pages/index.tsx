@@ -5,7 +5,7 @@ import Login from "./Auth/Login";
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <div className="bg-gray-300">
       <Head>
         <title>Dashboard</title>
         
@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       {/* <header className="bg-darkViolet sticky top-0 h-[72px] hidden md:flex justify-start items-center drop-shadow-xl">
         <p className="ml-8 text-white font-semibold uppercase">Dashboard</p>
       </header> */}
-      <div className="flex justify-center items-center min-h-[750px]">
+      <div className="flex justify-center items-center min-h-screen">
         <h1 className="text-5xl font-bold ">Dashboard</h1>
       </div>
     </div>
