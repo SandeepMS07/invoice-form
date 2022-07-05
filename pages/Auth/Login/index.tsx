@@ -49,7 +49,6 @@ const Login = () => {
     };
 
     const url =
-      "https://nl-ns-apim-ds.azure-api.net/dev-darwin-lc/v1/users/signin";
 
     axios({
       method: "post",

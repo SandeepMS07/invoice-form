@@ -204,7 +204,6 @@ const Invoice: NextPage = () => {
    */
   async function fetchData() {
     try {
-      let url = `https://nl-ns-apim-ds.azure-api.net/dev-darwin-lc/v1/customerSupport/getAddExtentiondata/${values.phone}`;
       const res: any = await axios({
         method: "GET",
         url: url,
