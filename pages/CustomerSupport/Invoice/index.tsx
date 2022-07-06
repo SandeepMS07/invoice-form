@@ -304,7 +304,7 @@ const Invoice: NextPage = () => {
         <title>Invoice</title>
       </Head>
 
-      <div className="grid lg:grid-cols-8 md:grid-cols-4 divide-x m-2 border-[1px]">
+      <div className="grid lg:grid-cols-8 md:grid-cols-4 divide-x m-2 ">
         <div className="md:col-span-5">
           <div>
             <form
