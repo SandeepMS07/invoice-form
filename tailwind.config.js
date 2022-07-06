@@ -12,7 +12,8 @@ module.exports = {
         "dark-purple": "#06060C",
         "light-white": "rgba(255,255,255,0.18)",
         "bg-light": "#FFF8E88C",
-        "Gray-mine-shaft" : "#373737"
+        "Gray-mine-shaft": "#373737",
+        "text": "#b37d00",
       },
     },
     screens: {
@@ -25,7 +26,7 @@ module.exports = {
       lg: "1340px",
       // => @media (min-width: 1440px) { ... }
 
-      xl: "1440px,"
+      xl: "1440px,",
     },
   },
   plugins: [],
