@@ -11,9 +11,11 @@ module.exports = {
         eastSide: "#b29dd4",
         "dark-purple": "#06060C",
         "light-white": "rgba(255,255,255,0.18)",
-        "bg-light": "#FFF8E88C",
+        "bg-light": "#FFF8E8",
         "Gray-mine-shaft": "#373737",
         "text": "#b37d00",
+        "border" : "#a6a6a6",
+        "bg-black":"#282828"
       },
     },
     screens: {

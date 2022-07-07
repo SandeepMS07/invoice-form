@@ -7,7 +7,7 @@ const PdfViewer = ({ pdfUrl }: any) => {
           type="application/pdf"
           className="w-[370px] h-[600px] md:w-[650px] md:h-[800px] lg:w-[440px] lg:h-[750px]"
         >
-          <p className="text-center">
+          <p className="hidden md:text-center">
             Alternative text - include a link{" "}
             <a
               className="text-darkViolet font-bold underline"

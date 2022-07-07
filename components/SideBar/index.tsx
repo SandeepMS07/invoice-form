@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { BsArrowLeftShort, BsChevronDown } from "react-icons/bs";
-
 import { TiClipboard } from "react-icons/ti";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-const Sidebar = ({ nav }: any) => {
+import { MdOutlineManageAccounts } from "react-icons/md";
+
+const Sidebar = (props: any) => {
+  let { nav } = props;
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const router = useRouter();
@@ -23,6 +25,11 @@ const Sidebar = ({ nav }: any) => {
       submenu: true,
       submenuItems: [
         {
+          title: "Customers",
+          icon: <MdOutlineManageAccounts />,
+          href: "/CustomerSupport/Customer",
+        },
+        {
           title: "Invoice",
           icon: <TiClipboard />,
           href: "/CustomerSupport/Invoice",
@@ -35,14 +42,14 @@ const Sidebar = ({ nav }: any) => {
 
   return (
     <div>
-      <div className="md:flex md:flex-col h-screen hidden bg-bg-light border-r-[1px] border-[#cc8f00] ">
+      <div className="md:flex md:flex-col h-screen hidden bg-bg-black border-r-[1px] border-border ">
         <div
           className={`h-[93%] p-5 pt-8 ${
             open ? "w-60" : "w-20"
           } duration-300 relative`}
         >
           <BsArrowLeftShort
-            className={`absolute  -right-3 top-9 border z-[900] bg-white text-text text-3xl rounded-full  border-[#cc8f00] cursor-pointer ${
+            className={`absolute  -right-3 top-9 border z-[900] bg-[#fff8e8] text-[#626262] text-3xl rounded-full  border-border cursor-pointer ${
               !open && "rotate-180"
             }`}
             onClick={() => {
@@ -54,8 +61,8 @@ const Sidebar = ({ nav }: any) => {
               <Image
                 src="/assets/images/logo.png"
                 alt=""
-                height={"40px"}
-                width={"40px"}
+                height={"54px"}
+                width={"49px"}
                 className={`duration-500  cursor-pointer ${
                   !open && "rotate-[360deg]"
                 }`}
@@ -63,7 +70,7 @@ const Sidebar = ({ nav }: any) => {
 
               {open && (
                 <h1
-                  className={`text-Gray-mine-shaft origin-left ml-2 font-bold  text-2xl duration-200 ${
+                  className={`text-white origin-left ml-2 font-bold  text-2xl duration-200 ${
                     !open && "scale-0"
                   }`}
                 >
@@ -78,8 +85,8 @@ const Sidebar = ({ nav }: any) => {
               <>
                 <li
                   key={index}
-                  className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-[#ffe8b3] rounded-md  
-                   mt-3  ${router.asPath === menu.href && "bg-[#ffd980]"}
+                  className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-[#00001a] rounded-md  
+                   mt-3  ${router.asPath === menu.href && "bg-[#00001a]"}
                 }`}
                 >
                   <span
@@ -113,7 +120,7 @@ const Sidebar = ({ nav }: any) => {
                     passHref
                   >
                     <span
-                      className={`text-base text-Gray-mine-shaft font-medium flex-1 ease-in-out delay-150 pb-2 duration-300 ${
+                      className={`text-base text-white font-medium flex-1 ease-in-out delay-150 pb-1 duration-300 ${
                         !open && "hidden"
                       }`}
                       onClick={() => {
@@ -126,7 +133,7 @@ const Sidebar = ({ nav }: any) => {
 
                   {menu.submenu && (
                     <BsChevronDown
-                      className={`text-Gray-mine-shaft ${
+                      className={`text-white font-bold text-lg mb-1 ${
                         submenuOpen && open && "rotate-180"
                       } ${submenuOpen && "text-sm"} ${!open && "hidden"}`}
                       onClick={() => {
@@ -137,12 +144,12 @@ const Sidebar = ({ nav }: any) => {
                 </li>
 
                 {menu.submenu && submenuOpen && open && (
-                  <ul>
+                  <ul className="mb-9">
                     {menu.submenuItems?.map((submenuItem, index) => (
                       <li
                         key={submenuItem.title}
-                        className={`text-Gray-mine-shaft text-sm flex items-center gap-x-4 cursor-pointer p-2 px-5 hover:bg-[#ffe8b3] rounded-md ${
-                          router.asPath === submenuItem.href && "bg-[#ffd980]"
+                        className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 px-7 mb-2 hover:bg-[#00001a] rounded-md ${
+                          router.asPath === submenuItem.href && "bg-[#00001a]"
                         }`}
                       >
                         <span className={`text-2xl block float-left`}>
@@ -157,7 +164,7 @@ const Sidebar = ({ nav }: any) => {
                           passHref
                         >
                           <span
-                            className={`text-base text-Gray-mine-shaft font-medium flex-1 duration-300 ${
+                            className={`text-md text-white font-medium flex-1 duration-300 ${
                               !open && "hidden"
                             }  `}
                           >
@@ -183,39 +190,43 @@ const Sidebar = ({ nav }: any) => {
           } duration-300 relative bg-[#ff5722] px-3 py-4  overflow-hidden whitespace-nowrap`}
         >
           <div className="flex items-center justify-center w-full">
-            <span
-              className={`w-2/12 text-base text-Gray-mine-shaft  ease-in-out delay-150  duration-300 ${
+            <div className="w-2/12 ">
+              <span
+                className={`bg-white rounded-[100px] w-[30px] h-[30px]  text-base flex items-center justify-center ease-in-out delay-150  duration-300 ${
+                  !open && "hidden"
+                }`}
+              >
+                <p className="text-bg-black w-[21px] h-[16px] text-center mb-2 font-bold">
+                  AD
+                </p>
+              </span>
+            </div>
+            <div
+              className={`w-8/12 ease-in-out delay-150  duration-300 ${
                 !open && "hidden"
               }`}
             >
-              <p className="text-text rounded-[47%] bg-white text-center items-center justify-center font-bold">
-                A
-              </p>
-            </span>
-            <span
-              className={` w-8/12 text-base text-Gray-mine-shaft font-medium ease-in-out delay-150  duration-300 ${
-                !open && "hidden"
+              <span className={`text-base text-Gray-mine-shaft font-medium `}>
+                <p className="text-white ml-5">Alfred David</p>
+              </span>
+            </div>
+            <div className={`${open ? "w-2/12" : "w-full"}`}>
+              <span
+                className={`text-xl float-left ease-in-out duration-300`}
+                onClick={() => {
+                  !open && setOpen(!open);
+                }}
+              >
+                <Image
+                  src="/assets/images/logout.png"
+                  alt=""
+                  height={"32px"}
+                  width={"32px"}
+                  className={`mr-2 duration-500 text-4xl rounded cursor-pointer block float-left"
               }`}
-            >
-              <p className="text-white ml-5">Alfred David</p>
-            </span>
-            <span
-              className={`${
-                open ? "w-2/12" : "w-full"
-              } w-2/12 text-2xl block float-left ease-in-out duration-300`}
-              onClick={() => {
-                !open && setOpen(!open);
-              }}
-            >
-              <Image
-                src="/assets/images/logout.png"
-                alt=""
-                height={"30px"}
-                width={"30px"}
-                className={`mr-2 duration-500 text-4xl rounded cursor-pointer block float-left"
-              }`}
-              />
-            </span>
+                />
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -226,23 +237,19 @@ const Sidebar = ({ nav }: any) => {
 
       <div
         className={
-          !nav
-            ? "hidden"
-            : "absolute bg-bg-light w-60 px-8 border-r-[1px] border-[#cc8f00]"
+          nav
+            ? "sticky snap-center bg-bg-black w-screen md:hidden h-screen z-auto px-8"
+            : "hidden"
         }
       >
-        <div
-          className={`h-[93%] p-5 pt-8 ${
-            open ? "w-60" : "w-20"
-          } duration-300 relative`}
-        >
+        <div className={`h-[84%] p-5 pt-8 duration-300 relative`}>
           <ul>
             {Menus.map((menu, index) => (
               <>
                 <li
                   key={index}
-                  className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-[#ffe8b3] rounded-md  
-                   mt-3  ${router.asPath === menu.href && "bg-[#ffd980]"}
+                  className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-[#00001a] rounded-md  
+                   mt-3  ${router.asPath === menu.href && "bg-[#00001a]"}
                 }`}
                 >
                   <span
@@ -274,9 +281,10 @@ const Sidebar = ({ nav }: any) => {
                   <Link
                     href={`${menu.href ? menu.href : (menu.href = "")}`}
                     passHref
+                    // onClick={() => props.func()}
                   >
                     <span
-                      className={`text-base text-Gray-mine-shaft font-medium flex-1 ease-in-out delay-150 pb-2 duration-300 ${
+                      className={`text-base text-white font-medium flex-1 ease-in-out delay-150 pb-2 duration-300 ${
                         !open && "hidden"
                       }`}
                       onClick={() => {
@@ -289,7 +297,7 @@ const Sidebar = ({ nav }: any) => {
 
                   {menu.submenu && (
                     <BsChevronDown
-                      className={`text-Gray-mine-shaft ${
+                      className={`text-white font-bold text-lg mb-1 ${
                         submenuOpen && open && "rotate-180"
                       } ${submenuOpen && "text-sm"} ${!open && "hidden"}`}
                       onClick={() => {
@@ -300,12 +308,12 @@ const Sidebar = ({ nav }: any) => {
                 </li>
 
                 {menu.submenu && submenuOpen && open && (
-                  <ul>
+                  <ul className="mb-9">
                     {menu.submenuItems?.map((submenuItem, index) => (
                       <li
                         key={submenuItem.title}
-                        className={`text-Gray-mine-shaft text-sm flex items-center gap-x-4 cursor-pointer p-2 px-5 hover:bg-[#ffe8b3] rounded-md ${
-                          router.asPath === submenuItem.href && "bg-[#ffd980]"
+                        className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 px-7 mb-2 hover:bg-[#00001a] rounded-md ${
+                          router.asPath === submenuItem.href && "bg-[#00001a]"
                         }`}
                       >
                         <span className={`text-2xl block float-left`}>
@@ -320,7 +328,7 @@ const Sidebar = ({ nav }: any) => {
                           passHref
                         >
                           <span
-                            className={`text-base text-Gray-mine-shaft font-medium flex-1 duration-300 ${
+                            className={`text-md text-white font-medium flex-1 duration-300 ${
                               !open && "hidden"
                             }  `}
                           >
@@ -341,46 +349,43 @@ const Sidebar = ({ nav }: any) => {
          *   */}
 
         <div
-          className={`flex h-[7%] mt-[37px] ${
-            open ? "w-60" : "w-20"
-          } duration-300 relative bg-[#ff5722] px-3 py-4  overflow-hidden whitespace-nowrap`}
+          className="flex h-[8%] duration-300 relative bg-[#ff5722] px-3 py-4 rounded-sm  overflow-hidden whitespace-nowrap"
         >
           <div className="flex items-center justify-center w-full">
-            <span
-              className={`w-2/12 text-base text-Gray-mine-shaft  ease-in-out delay-150  duration-300 ${
-                !open && "hidden"
+            <div className="w-1/12 ">
+              <span
+                className="bg-white rounded-[100px] w-[30px] h-[30px]  text-base flex items-center justify-center"
+              >
+                <p className="text-bg-black w-[21px] h-[16px] text-center mb-2 font-bold">
+                  AD
+                </p>
+              </span>
+            </div>
+            <div className="w-8/12">
+              <span className="flex items-center justify-start">
+                <p className="text-white font-medium text ml-5">Alfred David</p>
+              </span>
+            </div>
+            <div className="w-2/12">
+              <span
+                className="flex items-center justify-end"
+                onClick={() => {
+                  !open && setOpen(!open);
+                }}
+              >
+                <Image
+                  src="/assets/images/logout.png"
+                  alt=""
+                  height={"32px"}
+                  width={"32px"}
+                  className={`mr-2 duration-500 text-4xl rounded cursor-pointer block float-left"
               }`}
-            >
-              <p className="text-text rounded-[47%] bg-white text-center items-center justify-center font-bold">
-                A
-              </p>
-            </span>
-            <span
-              className={` w-8/12 text-base text-Gray-mine-shaft font-medium ease-in-out delay-150  duration-300 ${
-                !open && "hidden"
-              }`}
-            >
-              <p className="text-white ml-5">Alfred David</p>
-            </span>
-            <span
-              className={`${
-                open ? "w-2/12" : "w-full"
-              } w-2/12 text-2xl block float-left ease-in-out duration-300`}
-              onClick={() => {
-                !open && setOpen(!open);
-              }}
-            >
-              <Image
-                src="/assets/images/logout.png"
-                alt=""
-                height={"30px"}
-                width={"30px"}
-                className={`mr-2 duration-500 text-4xl rounded cursor-pointer block float-left"
-              }`}
-              />
-            </span>
+                />
+              </span>
+            </div>
           </div>
         </div>
+        <div className="h-[10%]"></div>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const Login = () => {
   type Inputs = {
@@ -37,7 +38,6 @@ const Login = () => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    trigger();
     setValues({ ...values, [name]: value });
   };
 
@@ -76,29 +76,46 @@ const Login = () => {
         setIsLoading(false);
       })
       .catch(() => {
-       setIsLoading(false)
+        setIsLoading(false);
 
         setLoginError(!loginError);
       });
   };
 
   return (
-    <div className="flex items-center justify-center h-screen w-full  text-center bg-gray-200">
-      <div className="flex items-center justify-center w-96 max-w-4xl bg-white rounded-2xl shadow-2xl">
-        <div className="p-4 md:p-5">
+    <div className="flex flex-col items-center justify-center h-screen w-full  text-center bg-bg-black">
+      <div className="flex flex-row mb-4">
+        <div className="text-start mr-1">
+          <Image
+            src="/assets/images/logo.png"
+            alt=""
+            height={"54px"}
+            width={"49px"}
+            className={`mr-2 duration-500 text-4xl rounded cursor-pointer block float-left"
+              }`}
+          />
+        </div>
+        <div>
+          <h3 className="text-xl md:text-2xl font-bold text-white mt-[6px] ml-3">
+            Darwin 3.0
+          </h3>
+        </div>
+      </div>
+      <div className="flex items-center justify-center w-[340px] h-[450px] md:h-[500px] md:w-[400px] max-w-4xl border-[1px] border-border bg-white rounded-sm">
+        <div className=" p-5">
+          <h3 className="text-3xl font-bold text-[#626262] mb-1 md:mb-2 mt-2">
+            Welcome back!
+          </h3>
+          <p className="text-[#626262] ">Login to continue..</p>
           <div className="p-6 md:p-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-darkViolet mb-1 md:mb-2">
-              Sign in to Account
-            </h2>
-            <div className="border-b-2 w-12 md:w-20 bg-darkViolet border-darkViolet inline-block mb-2"></div>
             <form
               className="flex flex-col items-center mb-1 md:mb-2"
               onSubmit={handleSubmit(onSubmit)}
             >
               <div>
                 <div>
-                  <div className="bg-gray-100 w-56 md:w-64 p-1 md:p-2 flex items-center mb-3 hover:shadow-xl">
-                    <FaRegEnvelope className="text-gray-400 m-2" />
+                  <div className="bg-white  w-64 p-1 md:p-2 border-[1px] border-border flex items-center mb-3 rounded-sm ">
+                    <FaRegEnvelope className="text-[#a6a6a6] m-2" />
                     <input
                       type="text"
                       id="username"
@@ -110,8 +127,8 @@ const Login = () => {
                           message: "*email should be in axxxx@xxx.com",
                         },
                       })}
-                      placeholder="Username"
-                      className="bg-gray-100 outline-none text-sm font-medium flex-1"
+                      placeholder="Email"
+                      className="bg-white outline-none placeholder:text-[#a6a6a6] text-sm font-medium flex-1"
                       value={values.username}
                       onChange={handleChange}
                     />
@@ -122,8 +139,8 @@ const Login = () => {
                 </div>
 
                 <div>
-                  <div className="bg-gray-100 w-56 md:w-64 p-1 md:p-2 flex items-center mb-3 hover:shadow-lg">
-                    <MdLockOutline className="text-gray-400 m-2" />
+                  <div className="bg-white w-64 p-1 md:p-2 border-[1px] border-border flex items-center mb-3 rounded-sm hover:shadow-lg">
+                    <MdLockOutline className="text-[#a6a6a6] m-2" />
                     <input
                       type={values.passwordShown ? "text" : "password"}
                       id="password"
@@ -131,14 +148,20 @@ const Login = () => {
                         required: "*password required",
                       })}
                       placeholder="Password"
-                      className="bg-gray-100 outline-none text-sm font-medium flex-1"
+                      className="bg-white outline-none text-sm font-medium flex-1 placeholder:text-[#a6a6a6]"
                       value={values.password}
                       onChange={handleChange}
                     />
                     {values.passwordShown ? (
-                      <AiFillEye onClick={togglePassword} />
+                      <AiFillEye
+                        onClick={togglePassword}
+                        className="text-[#a6a6a6]"
+                      />
                     ) : (
-                      <AiFillEyeInvisible onClick={togglePassword} />
+                      <AiFillEyeInvisible
+                        onClick={togglePassword}
+                        className="text-[#a6a6a6]"
+                      />
                     )}
                   </div>
                   <p className="text-red-600 text-xs m-3 text-start">
@@ -156,21 +179,19 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="border-2 bg-darkViolet border-darkViolet text-white rounded-full px-8 md:px-12 mb-5 py-1 md:py-2 inline-block font-semibold hover:bg-blue-800 hover:text-white hover:shadow-lg disabled:hover:shadow-none disabled:hover:border-red-900 disabled:hover:bg-red-600 disabled:border-none disabled:cursor-not-allowed"
+                className="border-2 bg-[#ff5722] border-[#b52b00] text-white rounded-sm w-64 mb-5 mt-4 py-1 md:py-2 inline-block font-semibold  disabled:hover:shadow-none disabled:hover:border-red-600 disabled:hover:bg-red-600 disabled:border-none disabled:cursor-not-allowed"
               >
-                Sign in
+                Login
               </button>
               {isLoading && (
                 <button
                   disabled={!isLoading}
                   type="button"
-                  className="py-1 md:py-2"
-
-                  //   className="text-white bg-darkViolet hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
+                  className="py-1 md:py-3 cursor-progress"
                 >
                   <svg
                     role="status"
-                    className="inline w-6 mr-2 text-darkViolet  disabled:text-white animate-spin"
+                    className="inline w-6 mr-2 text-[#8c8c8c]  disabled:text-white animate-spin"
                     viewBox="0 0 100 101"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -187,6 +208,11 @@ const Login = () => {
                 </button>
               )}
             </form>
+          </div>
+          <div>
+            <p className="text-xs md:text-sm text-[#626262]">
+              Forgot password ? Contact Administrator
+            </p>
           </div>
         </div>
       </div>
