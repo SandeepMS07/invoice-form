@@ -16,9 +16,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       {router.pathname !== "/Auth/Login" && (
-        <header className="bg-bg-black text-white sticky top-0 h-[72px] md:hidden flex justify-start items-center border-b-[1px] border-border z-[900]">
-          <div className="flex md:hidden ml-1 flex-row items-center justify-between">
-            <div className="md:hidden flex-1">
+        <header className="bg-bg-black text-white sticky top-0 h-[72px] md:hidden justify-start border-b-[1px] border-border z-[900]">
+          <div className="flex flex-row ml-1 items-center">
+            <div className="w-1/6 mt-3">
               <Image
                 src="/assets/images/logo.png"
                 alt=""
@@ -27,14 +27,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 className="text-white"
               />
             </div>
-            <div
-              className="md:hidden ml-80 mb-1 w-full flex-1"
-              onClick={handleClick}
-            >
+            <div className="w-4/6 text-start">
+              <h4 className="text-xl font-semibold">Darwin</h4>
+            </div>
+            <div className="md:hidden w-1/6" onClick={handleClick}>
               {!nav ? (
-                <ImMenu className="w-10 text-3xl text-white" />
+                <ImMenu className="w-10 text-2xl text-white" />
               ) : (
-                <MdCancel className="w-10 text-3xl text-white" />
+                <MdCancel className="w-10 text-2xl text-white" />
               )}
             </div>
           </div>

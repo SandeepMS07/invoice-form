@@ -44,12 +44,12 @@ const Sidebar = (props: any) => {
     <div>
       <div className="md:flex md:flex-col h-screen hidden bg-bg-black border-r-[1px] border-border ">
         <div
-          className={`h-[93%] p-5 pt-8 ${
+          className={`h-[93%] p-5 pt-4 ${
             open ? "w-60" : "w-20"
           } duration-300 relative`}
         >
           <BsArrowLeftShort
-            className={`absolute  -right-3 top-9 border z-[900] bg-[#fff8e8] text-[#626262] text-3xl rounded-full  border-border cursor-pointer ${
+            className={`absolute  -right-3 top-[29px] border z-[900] bg-[#fff8e8] text-[#626262] text-3xl rounded-full  border-border cursor-pointer ${
               !open && "rotate-180"
             }`}
             onClick={() => {
@@ -57,11 +57,11 @@ const Sidebar = (props: any) => {
             }}
           />
           <Link href="/" passHref>
-            <div className="flex gap-x-4 mb-10 items-center">
+            <div className="flex gap-x-3 mb-10 mt-2">
               <Image
                 src="/assets/images/logo.png"
                 alt=""
-                height={"54px"}
+                height={"50px"}
                 width={"49px"}
                 className={`duration-500  cursor-pointer ${
                   !open && "rotate-[360deg]"
@@ -70,7 +70,7 @@ const Sidebar = (props: any) => {
 
               {open && (
                 <h1
-                  className={`text-white origin-left ml-2 font-bold  text-2xl duration-200 ${
+                  className={`text-white origin-left ml-2 mt-1 font-bold  text-2xl duration-200 ${
                     !open && "scale-0"
                   }`}
                 >
@@ -148,7 +148,7 @@ const Sidebar = (props: any) => {
                     {menu.submenuItems?.map((submenuItem, index) => (
                       <li
                         key={submenuItem.title}
-                        className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 px-7 mb-2 hover:bg-[#00001a] rounded-md ${
+                        className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 px-7 pl-10 mt-1 mb-2 hover:bg-[#00001a] rounded-md ${
                           router.asPath === submenuItem.href && "bg-[#00001a]"
                         }`}
                       >

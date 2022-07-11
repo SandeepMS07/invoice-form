@@ -139,7 +139,7 @@ const Login = () => {
                 </div>
 
                 <div>
-                  <div className="bg-white w-64 p-1 md:p-2 border-[1px] border-border flex items-center mb-3 rounded-sm hover:shadow-lg">
+                  <div className="bg-white w-64 p-1 md:p-2 border-[1px] border-border flex items-center mb-3 rounded-sm">
                     <MdLockOutline className="text-[#a6a6a6] m-2" />
                     <input
                       type={values.passwordShown ? "text" : "password"}
