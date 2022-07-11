@@ -312,7 +312,7 @@ const Sidebar = (props: any) => {
                     {menu.submenuItems?.map((submenuItem, index) => (
                       <li
                         key={submenuItem.title}
-                        className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 px-7 mb-2 hover:bg-[#00001a] rounded-md ${
+                        className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 px-10 mt-2 mb-2 hover:bg-[#00001a] rounded-md ${
                           router.asPath === submenuItem.href && "bg-[#00001a]"
                         }`}
                       >
@@ -348,14 +348,10 @@ const Sidebar = (props: any) => {
          *logout
          *   */}
 
-        <div
-          className="flex h-[8%] duration-300 relative bg-[#ff5722] px-3 py-4 rounded-sm  overflow-hidden whitespace-nowrap"
-        >
+        <div className="flex h-[8%] duration-300 relative bg-[#ff5722] px-3 py-4 rounded-sm  overflow-hidden whitespace-nowrap">
           <div className="flex items-center justify-center w-full">
             <div className="w-1/12 ">
-              <span
-                className="bg-white rounded-[100px] w-[30px] h-[30px]  text-base flex items-center justify-center"
-              >
+              <span className="bg-white rounded-[100px] w-[30px] h-[30px]  text-base flex items-center justify-center">
                 <p className="text-bg-black w-[21px] h-[16px] text-center mb-2 font-bold">
                   AD
                 </p>
