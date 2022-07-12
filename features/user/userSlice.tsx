@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../../app/store"
 
-interface CounterState {
+interface UserState {
   name: string;
   email: string;
   phone: string;
@@ -17,7 +18,7 @@ interface CounterState {
   itemList: [];
 }
 
-const initialState: CounterState = {
+const initialState: UserState = {
   name: "",
   email: "",
   phone: "",
