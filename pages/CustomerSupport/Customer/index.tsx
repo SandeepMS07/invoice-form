@@ -7,14 +7,15 @@ import SearchButton from "../../../components/Buttons/searchButton";
 import Table from "../../../components/table/table";
 
 const index = () => {
-  const [search, setSearch] = useState();
+  const [searchKey, setSearchKey] = useState();
   const [data, setData] = useState();
+  const [isChecked, setIsChecked] = useState(false);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
     axios({
       method: "get",
-      url: `https://nl-ns-apim-ds.azure-api.net/dev-darwin-lc/v1/customerSupport/getAddExtentiondata/${search}`,
+      url: `https://nl-ns-apim-ds.azure-api.net/dev-darwin-lc/v1/customerSupport/getAddExtentiondata/${searchKey}`,
       headers: {
         "Ocp-Apim-Subscription-Key": "23835e387fda4748b2aed408f9e90e8c",
       },
@@ -30,8 +31,21 @@ const index = () => {
   };
 
   const onChange = (e: any) => {
-    setSearch(e.target.value);
+    setSearchKey(e.target.value);
   };
+
+  const handleRadioButton = (e: any) => {
+    e.preventDefault();
+    setIsChecked(true);
+  };
+
+  const details = [
+    { value: "modifyDetails", title: "Modify Details" },
+    { value: "resetPassword", title: "Reset Password" },
+    { value: "refundCredit", title: "Refund Credit" },
+    { value: "addExtension", title: "Add Extension" },
+    { value: "otpVerify", title: "OTP Verification" },
+  ];
 
   return (
     <div className="h-screen">
@@ -48,79 +62,32 @@ const index = () => {
            * radio button
            *   */}
           <div className="hidden md:flex flex-wrap ml-10 mt-5 w-2/3 gap-x-28">
-            <div className="mb-8">
-              <input
-                type="radio"
-                name="customers"
-                id="modifyDetails"
-                className="accent-[#ff5722] ring-border transition duration-400"
-                defaultChecked
-              />
-              <label
-                htmlFor="modifyDetails"
-                className="text-lg font-semibold ml-4"
-              >
-                Modify Details
-              </label>
-            </div>
-            <div className="mb-8">
-              <input
-                type="radio"
-                name="customers"
-                id="resetPassword"
-                className="accent-[#ff5722] ring-border transition duration-400"
-              />
-              <label
-                htmlFor="resetPassword"
-                className="text-lg font-semibold ml-4"
-              >
-                Reset Password
-              </label>
-            </div>
-            <div className="mb-8">
-              <input
-                type="radio"
-                name="customers"
-                id="refundCredit"
-                className="accent-[#ff5722] ring-border transition duration-400"
-              />
-              <label
-                htmlFor="refundCredit"
-                className="text-lg font-semibold ml-4"
-              >
-                Refund Credit
-              </label>
-            </div>
-            <div className="mb-8">
-              <input
-                type="radio"
-                name="customers"
-                id="addExtension"
-                className="accent-[#ff5722] ring-border transition duration-400"
-              />
-              <label
-                htmlFor="addExtension"
-                className="text-lg font-semibold ml-4"
-              >
-                Add Extension
-              </label>
-            </div>
-            <div className="mb-8">
-              <input
-                type="radio"
-                name="customers"
-                id="otpVerify"
-                className="accent-[#ff5722] ring-border transition duration-400"
-              />
-              <label htmlFor="otpVerify" className="text-lg font-semibold ml-4">
-                OTP Verification
-              </label>
-            </div>
+            {details.map((inp, index) => {
+              return (
+                <div className="mb-8" key={index}>
+                  <input
+                    type="radio"
+                    name="customers"
+                    id={inp.value}
+                    value={inp.title}
+                    className="accent-[#ff5722] ring-border transition duration-400"
+                    onChange={handleRadioButton}
+                  />
+                  <label
+                    htmlFor={inp.value}
+                    className="text-lg font-semibold ml-4"
+                  >
+                    {inp.title}
+                  </label>
+                </div>
+              );
+            })}
           </div>
 
           {/**
            *dropdown list [mobile]
            *   */}
+
           <div className="md:hidden flex flex-col m-4 ">
             <label
               htmlFor="customers"
@@ -172,47 +139,48 @@ const index = () => {
       {/**
        *
        */}
-
-      <div className="h-[585px] w-full">
-        <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-5/12">
-            <SearchButton onSubmit={onSubmit} onChange={onChange} />
-            <div>
-              <div className="m-1 md:m-3 mr-1 md:ml-6 mt-4  ">
-                {/* <div className="w-full h-[482px] border-2 shadow-lg"> */}
+      {isChecked && (
+        <div className="h-[585px] w-full">
+          <div className="flex flex-col md:flex-row">
+            <div className="w-full md:w-5/12">
+              <SearchButton onSubmit={onSubmit} onChange={onChange} />
+              <div>
+                <div className="m-1 md:m-3 mr-1 md:ml-6 mt-4  ">
+                  {/* <div className="w-full h-[482px] border-2 shadow-lg"> */}
                   <Table data={data} />
-                {/* </div> */}
-              </div>
-              <div className="flex items-end justify-end mt-6">
-                <button className="px-3 mb-4 md:px-5 py-1 md:py-2 bg-[#0060ef] border-2 rounded-sm border-[#043785] text-white font-semibold mr-6">
-                  <span className="flex flex-row items-center justify-center gap-x-2">
-                    <span className="">
-                      <RiPencilFill className="text-white text-2xl" />
+                  {/* </div> */}
+                </div>
+                <div className="flex items-end justify-end mt-6">
+                  <button className="px-3 mb-4 md:px-5 py-1 md:py-2 bg-[#0060ef] border-2 rounded-sm border-[#043785] text-white font-semibold mr-6">
+                    <span className="flex flex-row items-center justify-center gap-x-2">
+                      <span className="">
+                        <RiPencilFill className="text-white text-2xl" />
+                      </span>
+                      <span className="text-white text-lg font-semibold mb-[2px]">
+                        Modify
+                      </span>
                     </span>
-                    <span className="text-white text-lg font-semibold mb-[2px]">
-                      Modify
-                    </span>
-                  </span>
-                </button>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div className=" md:w-7/12 h-[685px] border-2 m-4">
-            <div></div>
-            <div>
-              <div className="absolute bottom-[60px] right-10">
-                {/* <button className="px-7 py-3 bg-[#5c685c] border-2 rounded-sm border-[#3c3c3c] text-white font-semibold mr-6">
+            <div className=" md:w-7/12 h-[685px] border-2 m-4">
+              <div></div>
+              <div>
+                <div className="absolute bottom-[60px] right-10">
+                  {/* <button className="px-7 py-3 bg-[#5c685c] border-2 rounded-sm border-[#3c3c3c] text-white font-semibold mr-6">
                   Cancel
                 </button>
                 <button className="px-7 py-3 bg-[#00ab07] border-2 rounded-sm border-[#02720d] text-white font-semibold">
                   Submit
                 </button> */}
+                </div>
               </div>
             </div>
           </div>
+          {/* </div> */}
         </div>
-        {/* </div> */}
-      </div>
+      )}
     </div>
   );
 };

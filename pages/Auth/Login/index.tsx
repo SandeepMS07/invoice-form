@@ -72,7 +72,7 @@ const Login = () => {
             // body: JSON.stringify({ token: "ABCD" })
           })
           .then(() => {
-            router.push("/CustomerSupport/Invoice");
+            router.push("/");
           });
         setIsLoading(false);
       })
