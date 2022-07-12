@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { RiPencilFill } from "react-icons/ri";
 import SearchButton from "../../../components/Buttons/searchButton";
-import Table from "../../../components/table";
+import Table from "../../../components/table/table";
 
 const index = () => {
   const [search, setSearch] = useState();
