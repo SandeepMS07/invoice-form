@@ -57,7 +57,7 @@ const Sidebar = (props: any) => {
             }}
           />
           <Link href="/" passHref>
-            <div className="flex gap-x-3 mb-10 mt-2">
+            <div className="flex gap-x-3 mb-4 mt-2">
               <Image
                 src="/assets/images/logo.png"
                 alt=""
@@ -82,11 +82,10 @@ const Sidebar = (props: any) => {
 
           <ul>
             {Menus.map((menu, index) => (
-              <>
+              <div key={index}>
                 <li
-                  key={index}
                   className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-[#00001a] rounded-md  
-                   mt-3  ${router.asPath === menu.href && "bg-[#00001a]"}
+                   mt-1  ${router.asPath === menu.href && "bg-[#00001a]"}
                 }`}
                 >
                   <span
@@ -175,7 +174,7 @@ const Sidebar = (props: any) => {
                     ))}
                   </ul>
                 )}
-              </>
+              </div>
             ))}
           </ul>
         </div>
@@ -238,7 +237,7 @@ const Sidebar = (props: any) => {
       <div
         className={
           nav
-            ? "sticky snap-center bg-bg-black w-screen md:hidden h-screen z-auto px-8"
+            ? "absolute top-[72px] snap-center overflow-x-hidden bg-bg-black w-screen md:hidden h-screen z-[900] px-8"
             : "hidden"
         }
       >

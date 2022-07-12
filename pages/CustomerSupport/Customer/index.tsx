@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import axios from "axios";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
+import { useState } from "react";
 import { RiPencilFill } from "react-icons/ri";
 import SearchButton from "../../../components/Buttons/searchButton";
 import Table from "../../../components/table";
@@ -11,7 +10,7 @@ const index = () => {
   const [search, setSearch] = useState();
   const [data, setData] = useState();
 
-  const  onSubmit = (e: any) => {
+  const onSubmit = (e: any) => {
     e.preventDefault();
     axios({
       method: "get",
@@ -49,76 +48,74 @@ const index = () => {
            * radio button
            *   */}
           <div className="hidden md:flex flex-wrap ml-10 mt-5 w-2/3 gap-x-28">
-              <div className="mb-8">
-                <input
-                  type="radio"
-                  name="customers"
-                  id="modifyDetails"
-                  className="accent-[#ff5722] ring-border transition duration-400"
-                />
-                <label
-                  htmlFor="modifyDetails"
-                  className="text-lg font-semibold ml-4"
-                >
-                  Modify Details
-                </label>
-              </div>
-              <div className="mb-8">
-                <input
-                  type="radio"
-                  name="customers"
-                  id="resetPassword"
-                  className="accent-[#ff5722] ring-border transition duration-400"
-                />
-                <label
-                  htmlFor="resetPassword"
-                  className="text-lg font-semibold ml-4"
-                >
-                  Reset Password
-                </label>
-              </div>
-              <div className="mb-8">
-                <input
-                  type="radio"
-                  name="customers"
-                  id="refundCredit"
-                  className="accent-[#ff5722] ring-border transition duration-400"
-                />
-                <label
-                  htmlFor="refundCredit"
-                  className="text-lg font-semibold ml-4"
-                >
-                  Refund Credit
-                </label>
-              </div>
-              <div className="mb-8">
-                <input
-                  type="radio"
-                  name="customers"
-                  id="addExtension"
-                  className="accent-[#ff5722] ring-border transition duration-400"
-                />
-                <label
-                  htmlFor="addExtension"
-                  className="text-lg font-semibold ml-4"
-                >
-                  Add Extension
-                </label>
-              </div>
-              <div className="mb-8">
-                <input
-                  type="radio"
-                  name="customers"
-                  id="otpVerify"
-                  className="accent-[#ff5722] ring-border transition duration-400"
-                />
-                <label
-                  htmlFor="otpVerify"
-                  className="text-lg font-semibold ml-4"
-                >
-                  OTP Verification
-                </label>
-              </div>
+            <div className="mb-8">
+              <input
+                type="radio"
+                name="customers"
+                id="modifyDetails"
+                className="accent-[#ff5722] ring-border transition duration-400"
+                defaultChecked
+              />
+              <label
+                htmlFor="modifyDetails"
+                className="text-lg font-semibold ml-4"
+              >
+                Modify Details
+              </label>
+            </div>
+            <div className="mb-8">
+              <input
+                type="radio"
+                name="customers"
+                id="resetPassword"
+                className="accent-[#ff5722] ring-border transition duration-400"
+              />
+              <label
+                htmlFor="resetPassword"
+                className="text-lg font-semibold ml-4"
+              >
+                Reset Password
+              </label>
+            </div>
+            <div className="mb-8">
+              <input
+                type="radio"
+                name="customers"
+                id="refundCredit"
+                className="accent-[#ff5722] ring-border transition duration-400"
+              />
+              <label
+                htmlFor="refundCredit"
+                className="text-lg font-semibold ml-4"
+              >
+                Refund Credit
+              </label>
+            </div>
+            <div className="mb-8">
+              <input
+                type="radio"
+                name="customers"
+                id="addExtension"
+                className="accent-[#ff5722] ring-border transition duration-400"
+              />
+              <label
+                htmlFor="addExtension"
+                className="text-lg font-semibold ml-4"
+              >
+                Add Extension
+              </label>
+            </div>
+            <div className="mb-8">
+              <input
+                type="radio"
+                name="customers"
+                id="otpVerify"
+                className="accent-[#ff5722] ring-border transition duration-400"
+              />
+              <label htmlFor="otpVerify" className="text-lg font-semibold ml-4">
+                OTP Verification
+              </label>
+            </div>
           </div>
 
           {/**
@@ -179,15 +176,15 @@ const index = () => {
       <div className="h-[585px] w-full">
         <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-5/12">
-           <SearchButton  onSubmit={onSubmit} onChange={onChange}/>
+            <SearchButton onSubmit={onSubmit} onChange={onChange} />
             <div>
-              <div className="m-1 md:m-3 mr-1 md:ml-6 mt-4  border-2 ">
-                <table className="w-full h-[482px] border-2  divide-y divide-border table-fixed shadow-lg">
-                 <Table data={data}/>
-                </table>
+              <div className="m-1 md:m-3 mr-1 md:ml-6 mt-4  ">
+                {/* <div className="w-full h-[482px] border-2 shadow-lg"> */}
+                  <Table data={data} />
+                {/* </div> */}
               </div>
               <div className="flex items-end justify-end mt-6">
-                <button className="px-3 md:px-5 py-1 md:py-2 bg-[#0060ef] border-2 rounded-sm border-[#043785] text-white font-semibold mr-6">
+                <button className="px-3 mb-4 md:px-5 py-1 md:py-2 bg-[#0060ef] border-2 rounded-sm border-[#043785] text-white font-semibold mr-6">
                   <span className="flex flex-row items-center justify-center gap-x-2">
                     <span className="">
                       <RiPencilFill className="text-white text-2xl" />
