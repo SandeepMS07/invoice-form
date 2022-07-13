@@ -1,16 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import axios from "axios";
 import Head from "next/head";
-import { useState } from "react";
+import Link from "next/link";
+import { Children, useState } from "react";
 import { RiPencilFill } from "react-icons/ri";
 import SearchButton from "../../../components/Buttons/searchButton";
+import ModifyDetails from "../../../components/customers/ModifyDetails";
 import Table from "../../../components/table/table";
 
-const index = () => {
+const index = (props: any) => {
+  const { children } = props;
   const [searchKey, setSearchKey] = useState();
   const [data, setData] = useState();
   const [isChecked, setIsChecked] = useState(false);
-  const [customers, setCustomers] = useState()
+  const [customers, setCustomers] = useState("");
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -35,11 +38,12 @@ const index = () => {
     setSearchKey(e.target.value);
   };
 
-  const handleRadioButton = (e: any) => {
-    setCustomers(e.target.value)
+  const handleOptions = (e: any) => {
+    setCustomers(e.target.value);
     setIsChecked(true);
   };
 
+  console.log(customers);
   const details = [
     { value: "modifyDetails", title: "Modify Details" },
     { value: "resetPassword", title: "Reset Password" },
@@ -73,7 +77,7 @@ const index = () => {
                     value={inp.title}
                     className="accent-[#ff5722] ring-border transition duration-400"
                     checked={customers === inp.title}
-                    onChange={handleRadioButton}
+                    onChange={handleOptions}
                   />
                   <label
                     htmlFor={inp.value}
@@ -101,38 +105,24 @@ const index = () => {
               name="customers"
               id="customers"
               autoComplete="customers"
+              value={customers}
+              onChange={handleOptions}
               className="border-2 border-border outline-none rounded-sm p-2 text-sm font-semibold"
             >
-              <option
-                value="Modify Details"
-                className="bg-white focus:bg-[#f2f2f2] text-sm font-semibold"
-              >
-                Modify Details
+              <option className="bg-white focus:bg-[#f2f2f2] text-sm font-semibold">
+                choose the option
               </option>
-              <option
-                value="Reset Password"
-                className="bg-white focus:bg-[#f2f2f2] text-sm font-semibold"
-              >
-                Reset Password
-              </option>
-              <option
-                value="Refund Credit"
-                className="bg-white focus:bg-[#f2f2f2] text-sm font-semibold"
-              >
-                Refund Credit
-              </option>
-              <option
-                value="Add Extension"
-                className="bg-white focus:bg-[#f2f2f2] text-sm font-semibold"
-              >
-                Add Extension
-              </option>
-              <option
-                value="OTP Verification"
-                className="bg-white focus:bg-[#f2f2f2] text-sm font-semibold"
-              >
-                OTP Verification
-              </option>
+              {details.map((inp, index) => {
+                return (
+                  <option
+                    key={index}
+                    value={inp.title}
+                    className="bg-white focus:bg-[#f2f2f2] text-sm font-semibold"
+                  >
+                    {inp.title}
+                  </option>
+                );
+              })}
             </select>
           </div>
         </form>
@@ -153,31 +143,31 @@ const index = () => {
                   {/* </div> */}
                 </div>
                 <div className="flex items-end justify-end mt-6">
-                  <button className="px-3 mb-4 md:px-5 py-1 md:py-2 bg-[#0060ef] border-2 rounded-sm border-[#043785] text-white font-semibold mr-6">
-                    <span className="flex flex-row items-center justify-center gap-x-2">
-                      <span className="">
-                        <RiPencilFill className="text-white text-2xl" />
+                  <Link
+                    passHref
+                    href={{
+                      pathname:
+                        "../../../components/customers/ModifyDetails.tsx",
+                    }}
+                  >
+                    <button className="px-3 mb-4 md:px-5 py-1 md:py-2 bg-[#0060ef] border-2 rounded-sm border-[#043785] text-white font-semibold mr-6">
+                      <span className="flex flex-row items-center justify-center gap-x-2">
+                        <span className="">
+                          <RiPencilFill className="text-white text-2xl" />
+                        </span>
+                        <span className="text-white text-lg font-semibold mb-[2px]">
+                          Modify
+                        </span>
                       </span>
-                      <span className="text-white text-lg font-semibold mb-[2px]">
-                        Modify
-                      </span>
-                    </span>
-                  </button>
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
             <div className=" md:w-7/12 h-[685px] border-2 m-4">
-              <div></div>
-              <div>
-                <div className="absolute bottom-[60px] right-10">
-                  {/* <button className="px-7 py-3 bg-[#5c685c] border-2 rounded-sm border-[#3c3c3c] text-white font-semibold mr-6">
-                  Cancel
-                </button>
-                <button className="px-7 py-3 bg-[#00ab07] border-2 rounded-sm border-[#02720d] text-white font-semibold">
-                  Submit
-                </button> */}
-                </div>
-              </div>
+              {/* <main>{children}</main> */}
+              <ModifyDetails data={data}/>
+             
             </div>
           </div>
           {/* </div> */}

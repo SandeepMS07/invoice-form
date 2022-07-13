@@ -253,9 +253,6 @@ const Sidebar = (props: any) => {
                 >
                   <span
                     className={`text-2xl block float-left ease-in-out duration-300`}
-                    onClick={() => {
-                      !open ? setOpen(true) : "";
-                    }}
                   >
                     {menu.src ? (
                       <Image
@@ -283,8 +280,7 @@ const Sidebar = (props: any) => {
                     // onClick={() => props.func()}
                   >
                     <span
-                      className={`text-base text-white font-medium flex-1 ease-in-out delay-150 pb-2 duration-300 ${
-                        !open && "hidden"
+                      className={`text-base text-white font-medium flex-1 ease-in-out delay-150 pb-2 duration-300 
                       }`}
                       onClick={() => {
                         menu.submenu && setSubmenuOpen(!submenuOpen);
@@ -298,7 +294,7 @@ const Sidebar = (props: any) => {
                     <BsChevronDown
                       className={`text-white font-bold text-lg mb-1 ${
                         submenuOpen && open && "rotate-180"
-                      } ${submenuOpen && "text-sm"} ${!open && "hidden"}`}
+                      } ${submenuOpen && "text-sm"} `}
                       onClick={() => {
                         setSubmenuOpen(!submenuOpen);
                       }}
@@ -306,11 +302,11 @@ const Sidebar = (props: any) => {
                   )}
                 </li>
 
-                {menu.submenu && submenuOpen && open && (
+                {menu.submenu && submenuOpen && (
                   <ul className="mb-9">
                     {menu.submenuItems?.map((submenuItem, index) => (
                       <li
-                        key={submenuItem.title}
+                        key={index}
                         className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 px-10 mt-2 mb-2 hover:bg-[#00001a] rounded-md ${
                           router.asPath === submenuItem.href && "bg-[#00001a]"
                         }`}
@@ -327,9 +323,7 @@ const Sidebar = (props: any) => {
                           passHref
                         >
                           <span
-                            className={`text-md text-white font-medium flex-1 duration-300 ${
-                              !open && "hidden"
-                            }  `}
+                            className={`text-md text-white font-medium flex-1 duration-300  `}
                           >
                             {submenuItem.title}
                           </span>
