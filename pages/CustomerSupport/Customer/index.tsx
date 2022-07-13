@@ -10,6 +10,7 @@ const index = () => {
   const [searchKey, setSearchKey] = useState();
   const [data, setData] = useState();
   const [isChecked, setIsChecked] = useState(false);
+  const [customers, setCustomers] = useState()
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -35,7 +36,7 @@ const index = () => {
   };
 
   const handleRadioButton = (e: any) => {
-    e.preventDefault();
+    setCustomers(e.target.value)
     setIsChecked(true);
   };
 
@@ -71,6 +72,7 @@ const index = () => {
                     id={inp.value}
                     value={inp.title}
                     className="accent-[#ff5722] ring-border transition duration-400"
+                    checked={customers === inp.title}
                     onChange={handleRadioButton}
                   />
                   <label
