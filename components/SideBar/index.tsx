@@ -23,7 +23,7 @@ const Sidebar = (props: any) => {
         // body: JSON.stringify({ token: "ABCD" })
       })
       .then(() => {
-        router.push("/");
+        router.push("/Auth/Login");
       });
   };
 
