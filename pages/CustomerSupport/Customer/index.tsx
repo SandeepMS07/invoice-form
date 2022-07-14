@@ -166,8 +166,7 @@ const index = (props: any) => {
             </div>
             <div className=" md:w-7/12 h-[685px] border-2 m-4">
               {/* <main>{children}</main> */}
-              <ModifyDetails data={data}/>
-             
+              <ModifyDetails data={data} />
             </div>
           </div>
           {/* </div> */}
