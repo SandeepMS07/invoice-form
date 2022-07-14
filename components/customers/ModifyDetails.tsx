@@ -4,7 +4,6 @@ import { useState } from "react";
 const ModifyDetails = (props: any) => {
   const { data } = props;
 
-
   const [values, setValues] = useState({
     phone: "",
     email: "",
@@ -38,6 +37,7 @@ const ModifyDetails = (props: any) => {
     })
       .then((response) => {
         setResponse({ ...Response, phone: response.data.message });
+        setValues({ ...values, phone: "" });
       })
       .catch((response) => {
         console.log(response);
@@ -61,6 +61,8 @@ const ModifyDetails = (props: any) => {
     })
       .then((response) => {
         setResponse({ ...Response, email: response.data.message });
+        setValues({ ...values, email: "" });
+
       })
       .catch((response) => {
         console.log(response);
@@ -160,12 +162,12 @@ const ModifyDetails = (props: any) => {
       )}
 
       {(Response.phone || Response.email) && (
-         <div
-         className="p-4 m-4 mt-10 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800 font-medium"
-         role="alert"
-       >
-         {Response.email || Response.phone}
-       </div>
+        <div
+          className="p-4 m-4 mt-10 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800 font-medium"
+          role="alert"
+        >
+          {Response.email || Response.phone}
+        </div>
       )}
     </div>
   );

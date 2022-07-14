@@ -5,12 +5,28 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { MdOutlineManageAccounts } from "react-icons/md";
+import axios from "axios";
 
 const Sidebar = (props: any) => {
   let { nav } = props;
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const router = useRouter();
+
+  const handleSignout = (e: any) => {
+    e.preventDefault();
+    axios
+      .post("api/Logout", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // body: JSON.stringify({ token: "ABCD" })
+      })
+      .then(() => {
+        router.push("/");
+      });
+  };
+
   const Menus = [
     { title: "Dashboard", href: "/" },
     {
@@ -209,7 +225,10 @@ const Sidebar = (props: any) => {
                 <p className="text-white ml-5">Alfred David</p>
               </span>
             </div>
-            <div className={`${open ? "w-2/12" : "w-full"}`}>
+            <div
+              className={`${open ? "w-2/12" : "w-full"}`}
+              onClick={handleSignout}
+            >
               <span
                 className={`text-xl float-left ease-in-out duration-300`}
                 onClick={() => {
