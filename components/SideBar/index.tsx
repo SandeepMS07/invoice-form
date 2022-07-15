@@ -16,7 +16,7 @@ const Sidebar = (props: any) => {
   const handleSignout = (e: any) => {
     e.preventDefault();
     axios
-      .post("api/Logout", {
+      .delete("api/Login", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -377,9 +377,7 @@ const Sidebar = (props: any) => {
             <div className="w-2/12">
               <span
                 className="flex items-center justify-end"
-                onClick={() => {
-                  !open && setOpen(!open);
-                }}
+                onClick={handleSignout}
               >
                 <Image
                   src="/assets/images/logout.png"
