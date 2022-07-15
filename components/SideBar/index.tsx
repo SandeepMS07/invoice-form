@@ -16,7 +16,7 @@ const Sidebar = (props: any) => {
   const handleSignout = (e: any) => {
     e.preventDefault();
     axios
-      .delete("api/Login", {
+      .delete("/api/Login", {
         headers: {
           "Content-Type": "application/json",
         },
